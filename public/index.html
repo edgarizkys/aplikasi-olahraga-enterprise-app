@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Olahraga Enterprise</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { primary: '#1E40AF', secondary: '#EF4444' } } } }
+    </script>
+</head>
+<body class="bg-gray-50">
+    <nav class="bg-primary text-white p-4 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold">Aplikasi Olahraga Enterprise</h1>
+            <div class="space-x-4">
+                <button onclick="render('athletes')" class="hover:text-secondary">Atlet</button>
+                <button onclick="render('events')" class="hover:text-secondary">Acara</button>
+            </div>
+        </div>
+    </nav>
+
+    <main id="app" class="container mx-auto p-6">
+        <div id="content" class="bg-white p-6 rounded-lg shadow">
+            <h2 class="text-2xl font-bold mb-4">Dashboard</h2>
+            <p>Pilih menu untuk kelola data.</p>
+        </div>
+    </main>
+
+    <script>
+        const state = {
+            athletes: [{id: 1, name: "Andi Wijaya", sport: "Sepak Bola", status: "Aktif"}, {id: 2, name: "Siti Aminah", sport: "Bulu Tangkis", status: "Cedera"}],
+            events: [{id: 1, title: "Turnamen Nasional", date: "2025-12-01", location: "Stadion Utama"}, {id: 2, title: "Latihan Bersama", date: "2025-12-05", location: "Gedung Olahraga"}]
+        };
+
+        function render(view) {
+            const container = document.getElementById('content');
+            if (view === 'athletes') {
+                container.innerHTML = `<h2 class="text-2xl font-bold mb-4">Manajemen Atlet</h2>
+                    <table class="w-full border-collapse">
+                        <thead><tr class="bg-gray-100"><th class="p-2 border">Nama</th><th class="p-2 border">Cabang</th><th class="p-2 border">Status</th></tr></thead>
+                        <tbody>${state.athletes.map(a => `<tr><td class="p-2 border">${a.name}</td><td class="p-2 border">${a.sport}</td><td class="p-2 border">${a.status}</td></tr>`).join('')}</tbody>
+                    </table>`;
+            } else {
+                container.innerHTML = `<h2 class="text-2xl font-bold mb-4">Jadwal Acara</h2>
+                    <table class="w-full border-collapse">
+                        <thead><tr class="bg-gray-100"><th class="p-2 border">Judul</th><th class="p-2 border">Tanggal</th><th class="p-2 border">Lokasi</th></tr></thead>
+                        <tbody>${state.events.map(e => `<tr><td class="p-2 border">${e.title}</td><td class="p-2 border">${e.date}</td><td class="p-2 border">${e.location}</td></tr>`).join('')}</tbody>
+                    </table>`;
+            }
+        }
+    </script>
+</body>
+</html>

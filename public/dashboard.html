@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Aplikasi Olahraga Enterprise</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root { --accent-from: #1E40AF; --accent-to: #EF4444; }
+        .sidebar { background: linear-gradient(to bottom, var(--accent-from), var(--accent-to)); }
+    </style>
+</head>
+<body class="bg-gray-100 flex h-screen">
+    <aside class="w-64 sidebar text-white p-6">
+        <h2 class="text-2xl font-bold mb-10">Dashboard</h2>
+        <nav class="space-y-4">
+            <a href="#" class="block py-2 px-4 bg-white/20 rounded">Atlet</a>
+            <a href="#" class="block py-2 px-4 hover:bg-white/10 rounded">Acara</a>
+            <a href="#" class="block py-2 px-4 hover:bg-white/10 rounded">Laporan</a>
+        </nav>
+    </aside>
+
+    <main class="flex-1 p-8 overflow-y-auto">
+        <header class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800">Manajemen Atlet</h1>
+            <button class="bg-blue-800 text-white px-4 py-2 rounded shadow">Tambah Atlet</button>
+        </header>
+
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+            <table class="w-full text-left">
+                <thead class="bg-gray-50 border-b">
+                    <tr>
+                        <th class="p-4">Nama</th>
+                        <th class="p-4">Cabang</th>
+                        <th class="p-4">Status</th>
+                        <th class="p-4">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="athlete-table">
+                    <!-- Data injected via app.js -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        async function loadData() {
+            const res = await fetch('/api/athletes');
+            const data = await res.json();
+            const tbody = document.getElementById('athlete-table');
+            tbody.innerHTML = data.map(a => `
+                <tr class="border-b">
+                    <td class="p-4">${a.name}</td>
+                    <td class="p-4">${a.sport}</td>
+                    <td class="p-4"><span class="px-2 py-1 rounded text-xs ${a.status === 'Aktif' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">${a.status}</span></td>
+                    <td class="p-4"><button class="text-blue-600">Edit</button></td>
+                </tr>
+            `).join('');
+        }
+        loadData();
+    </script>
+</body>
+</html>
